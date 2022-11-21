@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-ark-config
+data:
+  session_name: "{{ .Values.config.session_name }}"
+  server_map: "{{ .Values.config.server_map }}"
+  max_players: "{{ .Values.config.max_players }}"
+  game_client_port: "{{ .Values.service.port.game_client_port }}"
+  udp_socket_port: "{{ .Values.service.port.udp_socket_port }}"
+  rcon_port: "{{ .Values.service.port.rcon_port }}"
+  game_mode_ids: "{{ .Values.service.port.game_mode_ids }}"

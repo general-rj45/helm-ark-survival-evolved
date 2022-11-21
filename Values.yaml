@@ -1,0 +1,33 @@
+# Default Values for my Helm Chart
+
+deployment:
+  image: hermsi/ark-server
+  resources:
+    requests:
+      memory: "500Mi"
+      cpu: "250m"
+    limits:
+      memory: "10000Mi"
+      cpu: "4000m"
+
+config:
+  session_name: "test"
+  server_map: "TheIsland"
+  max_players: 20
+
+secret:
+  server_password: T3Jpb24xMjM=
+  admin_password: a2prc3pwag==
+
+service:
+  loadBalancerIP: 192.168.1.111
+  port:
+    # GAME_CLIENT_PORT: 7777
+    # UDP_SOCKET_PORT: 7778
+    # RCON_PORT: 27020
+    # GAME_MOD_IDS: 27015
+
+    game_client_port: 7777
+    udp_socket_port: 7778
+    rcon_port: 27020
+    game_mode_ids: 27015

@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-ark-service
+  namespace: ark
+spec:
+  type: LoadBalancer
+  loadBalancerIP: {{ .Values.service.loadBalancerIP }}
+  selector:
+    app: {{ .Release.Name }}-ARK
+  ports:
+    - port: {{ .Values.service.port.game_client_port }}
+      targetPort: {{ .Values.service.port.game_client_port }}
+      protocol: UDP
+      name: game-client-port
+
+    - port: {{ .Values.service.port.udp_socket_port }}
+      targetPort: {{ .Values.service.port.udp_socket_port }}
+      protocol: UDP
+      name: udp-socket-port
+
+    - port: {{ .Values.service.port.rcon_port }}
+      targetPort: {{ .Values.service.port.rcon_port }}
+      protocol: UDP
+      name: rcon-port
+
+    - port: {{ .Values.service.port.game_mode_ids }}
+      targetPort: {{ .Values.service.port.game_mode_ids }}
+      protocol: UDP
+      name: game-mode-ids

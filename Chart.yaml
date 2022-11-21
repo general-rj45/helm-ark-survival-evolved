@@ -1,0 +1,9 @@
+apiVersion : v2
+name       : ark-survival-evolved
+type       : application
+version    : 0.1
+appVersion : 0.1
+
+
+maintainers:
+ - name: General RJ-45

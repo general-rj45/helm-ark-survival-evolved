@@ -1,0 +1,107 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-ark-deploy
+  labels:
+    app: {{ .Release.Name }}-ARK
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-ARK
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-ARK
+    spec:
+      containers:
+      - name: ark-server
+        image: {{ .Values.deployment.image }}
+        resources:
+          requests:
+            memory: {{ .Values.deployment.resources.requests.memory }}
+            cpu: {{ .Values.deployment.resources.requests.cpu }}
+          limits:
+            memory: {{ .Values.deployment.resources.limits.memory }}
+            cpu: {{ .Values.deployment.resources.limits.cpu }}
+        volumeMounts:
+          - mountPath: /app/server/ShooterGame/Saved
+            name: {{ .Release.Name }}-ark-save
+          - mountPath: /app
+            name: ark-server
+        env:
+        - name: SESSION_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: {{ .Release.Name }}-ark-config
+              key: session_name
+        - name: SERVER_MAP
+          valueFrom:
+            configMapKeyRef:
+              name: {{ .Release.Name }}-ark-config
+              key: server_map
+
+        - name: MAX_PLAYERS
+          valueFrom:
+            configMapKeyRef:
+              name: {{ .Release.Name }}-ark-config
+              key: max_players
+        - name: GAME_CLIENT_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: {{ .Release.Name }}-ark-config
+              key: game_client_port
+        - name: UDP_SOCKET_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: {{ .Release.Name }}-ark-config
+              key: udp_socket_port
+        - name: RCON_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: {{ .Release.Name }}-ark-config
+              key: rcon_port
+        - name: GAME_MOD_IDS
+          valueFrom:
+            configMapKeyRef:
+              name: {{ .Release.Name }}-ark-config
+              key: game_mode_ids
+
+
+
+        - name: SERVER_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-ark-password
+              key: server_password
+
+        - name: ADMIN_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-ark-password
+              key: admin_password
+
+        ports:
+        - containerPort: {{ .Values.service.port.game_client_port }}
+          protocol: UDP
+          name: client-port
+
+        - containerPort: {{ .Values.service.port.udp_socket_port }}
+          protocol: UDP
+          name: socket-port
+
+        - containerPort: {{ .Values.service.port.rcon_port }}
+          protocol: UDP
+          name: rcon-port
+
+        - containerPort: {{ .Values.service.port.game_mode_ids }}
+          protocol: UDP
+          name: game-mode-ds
+
+      volumes:
+      - name: {{ .Release.Name }}-ark-save
+        persistentVolumeClaim:
+          claimName: {{ .Release.Name }}-ark-save
+      - name: ark-server
+        persistentVolumeClaim:
+          claimName: ark-server
