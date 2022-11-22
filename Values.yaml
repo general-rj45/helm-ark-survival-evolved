@@ -15,9 +15,10 @@ config:
   server_map: "TheIsland"
   max_players: 20
 
-secret:
-  server_password: T3Jpb24xMjM=
-  admin_password: a2prc3pwag==
+
+secrets:
+  server_password: TdHJhdGF0YQ==
+  admin_password: dHJhcnRhdGF0YXQ=
 
 service:
   loadBalancerIP: 192.168.1.111
@@ -31,3 +32,14 @@ service:
     udp_socket_port: 7778
     rcon_port: 27020
     game_mode_ids: 27015
+
+pvc:
+  ark_server:
+    name: ark-server
+    size: 30G
+  ark_save: 
+    name: ark-save
+    size: 10G
+
+
+storageClassName: local-path

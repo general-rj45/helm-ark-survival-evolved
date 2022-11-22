@@ -1,25 +1,25 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: ark-server
+  name: {{ .Values.pvc.ark_server.name }}
 spec:
-  storageClassName: local-path
+  storageClassName: {{ .Values.storageClassName }}
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 30G
+      storage: {{ .Values.pvc.ark_server.size }}
 
 ---
 
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: {{ .Release.Name }}-ark-save
+  name: {{ .Values.pvc.ark_save.name }}
 spec:
-  storageClassName: local-path
+  storageClassName: {{ .Values.storageClassName }}
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 10G
+      storage: {{ .Values.pvc.ark_save.size }}

@@ -26,9 +26,9 @@ spec:
             cpu: {{ .Values.deployment.resources.limits.cpu }}
         volumeMounts:
           - mountPath: /app/server/ShooterGame/Saved
-            name: {{ .Release.Name }}-ark-save
+            name: {{ .Values.pvc.ark_save.name }}
           - mountPath: /app
-            name: ark-server
+            name: {{ .Values.pvc.ark_server.name }}
         env:
         - name: SESSION_NAME
           valueFrom:
@@ -99,9 +99,9 @@ spec:
           name: game-mode-ds
 
       volumes:
-      - name: {{ .Release.Name }}-ark-save
+      - name: {{ .Values.pvc.ark_save.name }}
         persistentVolumeClaim:
-          claimName: {{ .Release.Name }}-ark-save
-      - name: ark-server
+          claimName: {{ .Values.pvc.ark_save.name }}
+      - name: {{ .Values.pvc.ark_server.name }}
         persistentVolumeClaim:
-          claimName: ark-server
+          claimName: {{ .Values.pvc.ark_server.name }}
