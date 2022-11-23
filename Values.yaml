@@ -17,8 +17,8 @@ config:
 
 
 secrets:
-  server_password: TdHJhdGF0YQ==
-  admin_password: dHJhcnRhdGF0YXQ=
+  server_password: test123
+  admin_password: test1234
 
 service:
   loadBalancerIP: 192.168.1.111
@@ -43,3 +43,10 @@ pvc:
 
 
 storageClassName: local-path
+
+
+# securityContext:
+#   runAsUser: 1000
+#   runAsGroup: 1000
+#   fsGroup: 1000
+#   runAsNonRoot: true

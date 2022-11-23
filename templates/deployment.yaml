@@ -14,9 +14,21 @@ spec:
       labels:
         app: {{ .Release.Name }}-ARK
     spec:
+      # initContainers:
+      #   - name: "init-chown-data"
+      #     image: "busybox"
+      #     # 1000 is the user that steam uses.
+      #     command: ["chown", "-R", "1000:1000", /app]
+      #     volumeMounts:
+      #     - name: {{ .Values.pvc.ark_save.name }}
+      #       mountPath: /app
       containers:
       - name: ark-server
         image: {{ .Values.deployment.image }}
+        # securityContext:
+        #   runAsUser: 1000
+        #   runAsGroup: 1000
+        #   runAsNonRoot: true
         resources:
           requests:
             memory: {{ .Values.deployment.resources.requests.memory }}
