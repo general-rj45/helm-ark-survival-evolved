@@ -23,11 +23,6 @@ secrets:
 service:
   loadBalancerIP: 192.168.1.111
   port:
-    # GAME_CLIENT_PORT: 7777
-    # UDP_SOCKET_PORT: 7778
-    # RCON_PORT: 27020
-    # GAME_MOD_IDS: 27015
-
     game_client_port: 7777
     udp_socket_port: 7778
     rcon_port: 27020

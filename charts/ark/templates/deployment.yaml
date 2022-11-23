@@ -14,21 +14,16 @@ spec:
       labels:
         app: {{ .Release.Name }}-ARK
     spec:
-      # initContainers:
-      #   - name: "init-chown-data"
-      #     image: "busybox"
-      #     # 1000 is the user that steam uses.
-      #     command: ["chown", "-R", "1000:1000", /app]
-      #     volumeMounts:
-      #     - name: {{ .Values.pvc.ark_save.name }}
-      #       mountPath: /app
+      initContainers:
+        - name: "init-chown-data"
+          image: "busybox"
+          command: ['sh', '-c', 'chown -R 1000:1000 /app']
+          volumeMounts:
+          - name: {{ .Values.pvc.ark_server.name }}
+            mountPath: /app
       containers:
       - name: ark-server
         image: {{ .Values.deployment.image }}
-        # securityContext:
-        #   runAsUser: 1000
-        #   runAsGroup: 1000
-        #   runAsNonRoot: true
         resources:
           requests:
             memory: {{ .Values.deployment.resources.requests.memory }}
@@ -39,7 +34,7 @@ spec:
         volumeMounts:
           - mountPath: /app/server/ShooterGame/Saved
             name: {{ .Values.pvc.ark_save.name }}
-          - mountPath: /app
+          - mountPath: /app 
             name: {{ .Values.pvc.ark_server.name }}
         env:
         - name: SESSION_NAME
