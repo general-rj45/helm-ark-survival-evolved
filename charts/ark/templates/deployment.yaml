@@ -19,8 +19,10 @@ spec:
           image: "busybox"
           command: ['sh', '-c', 'chown -R 1000:1000 /app']
           volumeMounts:
-          - name: {{ .Values.pvc.ark_server.name }}
-            mountPath: /app
+          - mountPath: /app/server/ShooterGame/Saved
+            name: {{ .Values.pvc.ark_save.name }}
+          - mountPath: /app 
+            name: {{ .Values.pvc.ark_server.name }}
       containers:
       - name: ark-server
         image: {{ .Values.deployment.image }}
@@ -73,8 +75,6 @@ spec:
             configMapKeyRef:
               name: {{ .Release.Name }}-ark-config
               key: game_mode_ids
-
-
 
         - name: SERVER_PASSWORD
           valueFrom:
