@@ -1,0 +1,16 @@
+1. Выполнить команду
+
+helm install metallb charts/metallb --create-namespace metallb
+
+2. Далее указать в adresspool.yaml свой пул адресов и добавить в ns metallb
+
+k apply -f adresspool.yaml -n metallb
+
+3. Редактируем под себя charts/ark/values.yaml
+
+4. Последнее выполнить 
+
+helm install metallb charts/metallb --create-namespace ark
+
+
+

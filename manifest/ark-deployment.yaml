@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ark-deploy
+  namespace: ark
+  labels:
+    app: ARK
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ARK
+  template:
+    metadata:
+      labels:
+        app: ARK
+    spec:
+      containers:
+      - name: ark-server
+        image: hermsi/ark-server
+        resources:
+          requests:
+            memory: "500Mi"
+            cpu: "250m"
+          limits:
+            memory: "10000Mi"
+            cpu: "4000m"
+        volumeMounts:
+          - mountPath: /home/steam/ARK-Backups
+            name: ark-save
+          - mountPath: /app
+            name: ark-server
+        env:
+        - name: SESSION_NAME
+          value: ark
+        - name: SERVER_MAP
+          value: TheIsland
+        - name: SERVER_PASSWORD
+          value: iAmSuperman
+        - name: ADMIN_PASSWORD
+          value: iAmSuperman
+        - name: MAX_PLAYERS
+          value: "20"
+      volumes:
+      - name: ark-save
+        persistentVolumeClaim:
+          claimName: ark-save
+      - name: ark-server
+        persistentVolumeClaim:
+          claimName: ark-server
